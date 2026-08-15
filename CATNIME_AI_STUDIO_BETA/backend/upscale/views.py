@@ -1,3 +1,4 @@
+import tempfile
 import io
 import os
 import uuid
@@ -100,10 +101,26 @@ def upscale_image(request):
         # then Pillow makes the output dimensions exact without stretching it.
         model = os.getenv("REPLICATE_MODEL", "nightmareai/real-esrgan")
 
+uploaded.seek(0)
+
+suffix = os.path.splitext(uploaded.name)[1] or ".png"
+
+with tempfile.NamedTemporaryFile(
+    suffix=suffix,
+    delete=True
+) as temp_file:
+
+    for chunk in uploaded.chunks():
+        temp_file.write(chunk)
+
+    temp_file.flush()
+
+    with open(temp_file.name, "rb") as image_file:
+
         output = replicate.run(
             model,
             input={
-                "image": uploaded,
+                "image": image_file,
                 "scale": 4,
                 "face_enhance": face_enhance,
             },
