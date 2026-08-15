@@ -1,0 +1,147 @@
+<!DOCTYPE html>
+<html lang="pt-BR">
+<head>
+  <meta charset="UTF-8" />
+  <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+  <title>CATNIME AI STUDIO</title>
+  <link rel="preconnect" href="https://fonts.googleapis.com">
+  <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+  <link href="https://fonts.googleapis.com/css2?family=Inter:wght@400;500;600;700;800;900&display=swap" rel="stylesheet">
+  <link rel="stylesheet" href="./style.css" />
+</head>
+<body>
+  <aside class="sidebar">
+    <div class="brand">
+      <img class="brand-logo" src="./assets/catnime-logo.jpg" alt="Logo CATNIME com personaje de sombrero de paja" />
+      <div class="brand-name">
+        <strong>CATNIME</strong>
+        <span>AI STUDIO</span>
+      </div>
+    </div>
+
+    <nav>
+      <button class="nav-item active" data-view="home">🏠 <span>Início</span></button>
+      <p class="nav-title">FERRAMENTAS DE IA</p>
+      <button class="nav-item" data-view="upscale">🖼️ <span>AI Upscale</span></button>
+      <button class="nav-item disabled">✨ <span>AI Enhance <small>Em breve</small></span></button>
+      <button class="nav-item disabled">🎨 <span>AI Color <small>Em breve</small></span></button>
+      <button class="nav-item disabled">✂️ <span>Remove Background <small>Em breve</small></span></button>
+      <button class="nav-item disabled">🌄 <span>AI Background <small>Em breve</small></span></button>
+      <button class="nav-item disabled">📐 <span>Resize Studio <small>Em breve</small></span></button>
+    </nav>
+
+    <div class="sidebar-footer">
+      <span class="status-dot"></span>
+      <div>
+        <strong>API Status</strong>
+        <small id="apiStatus">Verificando...</small>
+      </div>
+    </div>
+  </aside>
+
+  <main class="main">
+    <header class="topbar">
+      <div>
+        <h1>CATNIME <span>AI STUDIO</span></h1>
+        <p>Transforme suas imagens com inteligência artificial.</p>
+      </div>
+      <div class="badge">BETA</div>
+    </header>
+
+    <section id="homeView" class="view active">
+      <div class="hero">
+        <div class="hero-copy">
+          <span class="eyebrow">SUPER RESOLUTION • REAL-ESRGAN</span>
+          <h2>Mais detalhes.<br><span>Mais resolução.</span></h2>
+          <p>Envie sua imagem e deixe a IA aumentar a resolução para Full HD, 2K ou 4K.</p>
+          <button class="primary" id="heroStart">⚡ Começar agora</button>
+        </div>
+        <div class="hero-card">
+          <div class="compare before">
+            <span>ANTES</span>
+            <div class="pixel-demo"></div>
+          </div>
+          <div class="compare after">
+            <span>DEPOIS</span>
+            <div class="sharp-demo"></div>
+            <b>4K</b>
+          </div>
+        </div>
+      </div>
+
+      <div class="tools">
+        <article class="tool-card ready" id="upscaleCard">
+          <div class="tool-icon">🖼️</div>
+          <div>
+            <h3>AI Upscale</h3>
+            <p>Aumente a resolução com Real-ESRGAN e exporte em tamanho exato.</p>
+          </div>
+          <span class="ready-label">PRONTO</span>
+        </article>
+        <article class="tool-card"><div class="tool-icon">✨</div><div><h3>AI Enhance</h3><p>Nitidez, detalhes e redução de ruído.</p></div><span>EM BREVE</span></article>
+        <article class="tool-card"><div class="tool-icon">✂️</div><div><h3>Remove BG</h3><p>Remoção automática de fundo.</p></div><span>EM BREVE</span></article>
+      </div>
+    </section>
+
+    <section id="upscaleView" class="view">
+      <div class="studio-header">
+        <div>
+          <span class="eyebrow">CATNIME AI TOOL</span>
+          <h2>AI Upscale</h2>
+          <p>Carregue uma imagem, escolha a resolução e processe com IA.</p>
+        </div>
+        <button class="ghost" id="backHome">← Voltar</button>
+      </div>
+
+      <div class="studio-grid">
+        <div class="panel">
+          <h3>1. Enviar imagem</h3>
+          <label class="dropzone" id="dropzone">
+            <input type="file" id="fileInput" accept="image/png,image/jpeg,image/webp" hidden>
+            <div id="dropPlaceholder">
+              <div class="upload-icon">☁️</div>
+              <strong>Arraste uma imagem ou clique aqui</strong>
+              <span>PNG, JPG ou WEBP • até 15 MB</span>
+            </div>
+            <img id="preview" alt="Preview" />
+          </label>
+
+          <h3 class="mt">2. Escolher resolução</h3>
+          <div class="resolution-grid">
+            <label><input type="radio" name="resolution" value="1080p" checked><span><b>Full HD</b><small>1920 × 1080</small></span></label>
+            <label><input type="radio" name="resolution" value="2k"><span><b>2K QHD</b><small>2560 × 1440</small></span></label>
+            <label><input type="radio" name="resolution" value="4k"><span><b>4K UHD</b><small>3840 × 2160</small></span></label>
+          </div>
+
+          <label class="toggle-row">
+            <input type="checkbox" id="faceEnhance">
+            <span><b>Face Enhance</b><small>Melhora rostos usando a opção disponível no modelo.</small></span>
+          </label>
+
+          <button class="primary full" id="processBtn" disabled>✨ Melhorar com IA</button>
+          <p class="message" id="message"></p>
+        </div>
+
+        <div class="panel result-panel">
+          <h3>3. Resultado</h3>
+          <div class="result-empty" id="resultEmpty">
+            <span>✨</span>
+            <strong>Sua imagem melhorada aparecerá aqui</strong>
+            <small>O processamento pode levar algum tempo dependendo do serviço de IA.</small>
+          </div>
+          <div class="result-content" id="resultContent">
+            <img id="resultImage" alt="Imagem processada">
+            <div class="result-actions">
+              <a class="primary download" id="downloadBtn" download>⬇ Baixar imagem</a>
+              <button class="ghost" id="newImageBtn">Nova imagem</button>
+            </div>
+            <div class="meta" id="resultMeta"></div>
+          </div>
+        </div>
+      </div>
+    </section>
+  </main>
+
+  <script src="./app.js"></script>
+</body>
+</html>
